@@ -3,17 +3,20 @@ using System.Collections.Generic;
 
 public class Binary { /* A class for binary numbers without decimal implementation */
     /* Fields */
-    private int Length;
+    private int length;
+    private string body;
     /* End of Fields */
 
     /* Properties */
-    private string body;
+    public int Length {
+        get { return this.length;  }
+    }
 
     public string Body {
         get { return this.body; }
         set {
             this.body = value;
-            this.Length = value.Length;
+            this.length = value.Length;
         }
     }
 
@@ -185,9 +188,11 @@ public class Binary { /* A class for binary numbers without decimal implementati
             int x = MainClass.ValueOf(m[i]) + MainClass.ValueOf(n[i]) + MainClass.ValueOf(c[i]);
             c[i] = MainClass.Character(x);
             if (c[i] == '2' || c[i] == '3') {
-                if (i - 1 < 0) throw new Exception("Overflow Error!");
+                c[i] = (c[i] == '2' ? '0' : '1');
+                if (i - 1 < 0) { //If it's the last one...
+                    c = '1' + c;
+                }
                 else {
-                    c[i] = (c[i] == '2' ? '0' : '1');
                     c[i - 1] = '1';
                 }
             }
@@ -271,10 +276,6 @@ public class Binary { /* A class for binary numbers without decimal implementati
             }
             drop = drop - n * MainClass.ValueOf(quotient[i]) /*0 or 1*/;
         }
-
-
-        // The most digits the quotient will ever have is the same number of digits as n
-        quotient.Body = quotient.Body.Substring(quotient.Length - n.Length);
 
         return quotient;
     }

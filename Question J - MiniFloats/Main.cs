@@ -3,12 +3,24 @@
 public static class MainClass {
     public static void Main(string[] args) {
         Console.WriteLine("Regular Binary:");
-        Binary a = new Binary("1001");
-        Binary b = new Binary("101");
-        Console.WriteLine("{0} + {1}    = {2,8}", a, b, a + b);
-        Console.WriteLine("{0} - {1}    = {2,8}", a, b, a - b);
-        Console.WriteLine("{0} * {1}    = {2,8}", a, b, a * b);
-        Console.WriteLine("{0} / {1}    = {2,8}", a, b, a / b);
+        Binary a = new Binary("1101");
+        Binary b = new Binary("1010");
+        Console.WriteLine("{0} + {1}    = {2,16}", a, b, a + b);
+        Console.WriteLine("{0} - {1}    = {2,16}", a, b, a - b);
+        Console.WriteLine("{0} * {1}    = {2,16}", a, b, a * b);
+        Console.WriteLine("{0} / {1}    = {2,16}", a, b, a / b);
+
+        Console.WriteLine("\nBase Ten:");
+        Console.WriteLine("{0} + {1}    = {2,16}", a.BaseChange(), b.BaseChange(), (a + b).BaseChange());
+        Console.WriteLine("{0} - {1}    = {2,16}", a.BaseChange(), b.BaseChange(), (a - b).BaseChange());
+        Console.WriteLine("{0} * {1}    = {2,16}", a.BaseChange(), b.BaseChange(), (a * b).BaseChange());
+        Console.WriteLine("{0} / {1}    = {2,16}", a.BaseChange(), b.BaseChange(), (a / b).BaseChange());
+
+        Console.WriteLine("\nMinifloat Time!");
+
+        MiniFloat x = new MiniFloat('0', "0111", "101");
+        MiniFloat y = new MiniFloat('0', "1001", "010");
+        Console.WriteLine("{0} + {1} = {2}", x, y, x + y);
 
         Console.ReadLine();
     }
