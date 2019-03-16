@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 public class Binary { /* A class for binary numbers without decimal implementation */
     /* Fields */
@@ -9,7 +10,7 @@ public class Binary { /* A class for binary numbers without decimal implementati
 
     /* Properties */
     public int Length {
-        get { return this.length;  }
+        get { return this.length; }
     }
 
     public string Body {
@@ -191,8 +192,7 @@ public class Binary { /* A class for binary numbers without decimal implementati
                 c[i] = (c[i] == '2' ? '0' : '1');
                 if (i - 1 < 0) { //If it's the last one...
                     c = '1' + c;
-                }
-                else {
+                } else {
                     c[i - 1] = '1';
                 }
             }
@@ -203,6 +203,22 @@ public class Binary { /* A class for binary numbers without decimal implementati
     public static Binary operator -(Binary Minuend, Binary Subtrahend) {
         Binary m = Minuend.Copy();
         Binary n = Subtrahend.Copy();
+
+        void Borrow(ref Binary x, int p /* The index that caused a problem & must become a two */) {
+            while (x[p] != '1' && x[p] != '2') {
+                for (int i = p - 1 /**/ ; i >= 0; i--) {
+                    if (x[i] == '1') {
+                        x[i] = '0';
+                        x[i + 1] = '2';
+                        break;
+                    } else if (x[i] == '2') {
+                        x[i] = '1';
+                        x[i + 1] = '2';
+                        break;
+                    }
+                }
+            }
+        }
 
         int l;
         if (m.Length > n.Length) {
@@ -222,9 +238,8 @@ public class Binary { /* A class for binary numbers without decimal implementati
             do {
                 int x = MainClass.ValueOf(m[i]) - MainClass.ValueOf(n[i]);
                 if (x < 0) {
-                    if (i - 1 < 0) throw new Exception("Minuend < Subtrahend, Underflow Error!");
-                    m[i] = '2';
-                    m[i - 1] = '0';
+                    if (i - 1 < 0) throw new BinaryUnderFlowException("Cannot borrow in last column.");
+                    else Borrow(ref m, i);
                 } else {
                     flag = false;
                     c[i] = MainClass.Character(x);
@@ -280,4 +295,19 @@ public class Binary { /* A class for binary numbers without decimal implementati
         return quotient;
     }
     /* End of Operators */
+}
+
+/* Just to be able to throw a more specific error, constructors generated autoamtically */
+class BinaryUnderFlowException : Exception {
+    public BinaryUnderFlowException() {
+    }
+
+    public BinaryUnderFlowException(string message) : base(message) {
+    }
+
+    public BinaryUnderFlowException(string message, Exception innerException) : base(message, innerException) {
+    }
+
+    protected BinaryUnderFlowException(SerializationInfo info, StreamingContext context) : base(info, context) {
+    }
 }
