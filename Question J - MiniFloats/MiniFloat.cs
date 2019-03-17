@@ -3,6 +3,7 @@
 public class MiniFloat {
     /* Fields */
     private static readonly Binary BIAS = new Binary("0111");
+    private static readonly int INTBIAS = 7;
     private char sign;
     private Binary expo;
     private Binary mant;
@@ -110,8 +111,8 @@ public class MiniFloat {
             int diff = result.Mantissa.Length - longest; //Should only ever be one but why not
             for (int i = 0; i < diff; i++) result.Exponent += new Binary('1');
         } //else { //If the place before the decimal isn't two long
-            //Take off leading one
-            result.Mantissa.Body = result.Mantissa.Body.Substring(1);
+          //Take off leading one
+        result.Mantissa.Body = result.Mantissa.Body.Substring(1);
         //}
 
         /* MiniFloat format can only hold 3 digits */
@@ -175,13 +176,48 @@ public class MiniFloat {
         MiniFloat m = Minuend.Copy();
         MiniFloat n = Subtrahend.Copy();
         /* To subtract, you add the negative */
-        n.Signbit = (n.Signbit == '0') ? '1' : '0'; //flip
+        n.Signbit = (n.Signbit == '0') ? '1' : '0'; //flip dat bit
         return m + n; //+ operator deals with the signbit stuff
     }
 
-    //public static MiniFloat operator *(minifloat m, minifloat n) {
+    private static char NewSignbit(char s1, char s2) {
+        bool one = (s1 == '1'), two = (s2 == '1');
+        //XOR: one but not both is 1, then the new is 1
+        return ((one || two) && !(one && two)) ? '1' : '0';
+    }
 
-    //}
+    public static MiniFloat operator *(MiniFloat Multiplicand, MiniFloat Multiplier) {
+        /* M * N = (M_mant * N_mant) * 2^(M_sign + N_sign) */
+        MiniFloat m = Multiplicand.Copy();
+        MiniFloat n = Multiplier.Copy();
+
+        /* Add leading ones */
+        m.Mantissa = '1' + m.Mantissa;
+        n.Mantissa = '1' + n.Mantissa;
+
+        /* Multipliy the mantissas */
+        Binary newMantissa = m.Mantissa * n.Mantissa;
+
+        /* Add the non-biased exponents, create new biased exponent */
+        int e = (Convert.ToInt32(m.Exponent.BaseChange()) - 7) +
+            (Convert.ToInt32(n.Exponent.BaseChange()) - 7);
+        Binary newExponent = new Binary(Binary.BaseChange(e + 7, 10, 2));
+
+        char newSignbit = NewSignbit(m.Signbit, n.Signbit);
+
+        MiniFloat result = new MiniFloat(newSignbit, newExponent, newMantissa);
+
+        // Will have "11.[...]" or "10" at the start
+        // OR, if both were 000 000 -> 1.000 * 1.000 = 1.000
+        if (!(m.Mantissa.Body == "1000" && n.Mantissa.Body == "1000")) {
+            result.Exponent += new Binary("0001");
+        }
+
+        /* Remove leading one */
+        result.Mantissa.Body = result.Mantissa.Body.Substring(1);
+
+        return result;
+    }
 
     //public static MiniFloat operator /(MiniFloat m, MiniFloat n) {
 
