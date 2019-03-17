@@ -22,3 +22,6 @@ Our MiniFloat system from **COIS-2300H** is very similar, and works exactly the 
 3. The final three store the mantissa/fraction of the number.
 
 This allows for a smaller number, making it easier to perform arithmetic by hand on paper, but at the cost of accuracy.
+
+## Disclaimer
+This 'calculator' is not 100% accurate, and fails on certain edge cases, particularly with larger powers. It is only a proof of concept meant to demonstrate an understanding of the process of floating point computations.
