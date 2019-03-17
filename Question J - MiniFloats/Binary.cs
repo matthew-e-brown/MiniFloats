@@ -99,6 +99,7 @@ public class Binary { /* A class for binary numbers without decimal implementati
         } while (Math.Abs(decim) > 0);
 
         result = Reverse(result);
+        while (result.Length < 4) result = '0' + result;
         return result;
     }
 
@@ -235,7 +236,7 @@ public class Binary { /* A class for binary numbers without decimal implementati
             do {
                 int x = MainClass.ValueOf(m[i]) - MainClass.ValueOf(n[i]);
                 if (x < 0) {
-                    if (i - 1 < 0) throw new BinaryUnderFlowException("Cannot borrow in last column.");
+                    if (i - 1 < 0) throw new BinaryUnderFlowException("Cannot borrow in last column, underflow error.");
                     else Borrow(ref m, i);
                 } else {
                     flag = false;
@@ -287,6 +288,10 @@ public class Binary { /* A class for binary numbers without decimal implementati
                 quotient += '0';
             }
             drop = drop - n * MainClass.ValueOf(quotient[i]) /*0 or 1*/;
+        }
+
+        if (quotient.Body.IndexOf('1') != -1) { //If there's a one in it
+            while (quotient[0] != '1') quotient.Body = quotient.Body.Substring(1);
         }
 
         return quotient;

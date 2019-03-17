@@ -16,13 +16,13 @@ public class MiniFloat {
     /* Constructors */
     public MiniFloat() {
         this.Signbit = '0';
-        this.Exponent = new Binary("0111");
+        this.Exponent = BIAS.Copy();
         this.Mantissa = new Binary("000");
     }
 
     public MiniFloat(char sign) {
         this.Signbit = sign;
-        this.Exponent = new Binary("0111");
+        this.Exponent = BIAS.Copy();
         this.Mantissa = new Binary("000");
     }
 
@@ -40,7 +40,7 @@ public class MiniFloat {
 
     /* Methods */
     public float BaseChange() {
-        int power = Convert.ToInt32((this.Exponent - BIAS).BaseChange());
+        int power = Convert.ToInt32((this.Exponent).BaseChange()) - INTBIAS;
         float significand = 1F;
         for (int i = 0; i < this.Mantissa.Length; i++) {
             if (this.Mantissa[i] == '1') significand += (float)(1 / Math.Pow(2, i + 1));
@@ -199,9 +199,9 @@ public class MiniFloat {
         Binary newMantissa = m.Mantissa * n.Mantissa;
 
         /* Add the non-biased exponents, create new biased exponent */
-        int e = (Convert.ToInt32(m.Exponent.BaseChange()) - 7) +
-            (Convert.ToInt32(n.Exponent.BaseChange()) - 7);
-        Binary newExponent = new Binary(Binary.BaseChange(e + 7, 10, 2));
+        int e = (Convert.ToInt32(m.Exponent.BaseChange()) - INTBIAS) +
+            (Convert.ToInt32(n.Exponent.BaseChange()) - INTBIAS);
+        Binary newExponent = new Binary(Binary.BaseChange(e + INTBIAS, 10, 2));
 
         char newSignbit = NewSignbit(m.Signbit, n.Signbit);
 
@@ -209,9 +209,9 @@ public class MiniFloat {
 
         // Will have "11.[...]" or "10" at the start
         // OR, if both were 000 000 -> 1.000 * 1.000 = 1.000
-        if (!(m.Mantissa.Body == "1000" && n.Mantissa.Body == "1000")) {
-            result.Exponent += new Binary("0001");
-        }
+        //if (!(m.Mantissa.Body == "1000" && n.Mantissa.Body == "1000")) {
+        result.Exponent += new Binary("0001");
+        //}
 
         /* Remove leading one */
         result.Mantissa.Body = result.Mantissa.Body.Substring(1);
@@ -219,8 +219,30 @@ public class MiniFloat {
         return result;
     }
 
-    //public static MiniFloat operator /(MiniFloat m, MiniFloat n) {
+    public static MiniFloat operator /(MiniFloat Dividend, MiniFloat Divisor) {
+        MiniFloat m = Dividend.Copy();
+        MiniFloat n = Divisor.Copy();
 
-    //}
+        m.Mantissa = '1' + m.Mantissa;
+        n.Mantissa = '1' + n.Mantissa;
+
+        Binary newMantissa = m.Mantissa / n.Mantissa;
+
+        /* Sub exponents */
+        int e = (Convert.ToInt32(m.Exponent.BaseChange()) - INTBIAS) -
+            (Convert.ToInt32(n.Exponent.BaseChange()) - INTBIAS);
+        Binary newExponent = new Binary(Binary.BaseChange(e + INTBIAS, 10, 2));
+
+        char newSignbit = NewSignbit(m.Signbit, n.Signbit);
+
+        MiniFloat result = new MiniFloat(newSignbit, newExponent, newMantissa);
+
+        /* Remove leading */
+        result.Mantissa.Body = result.Mantissa.Body.Substring(1);
+
+        while (result.Mantissa.Length < 3) result.Mantissa += '0';
+
+        return result;
+    }
 
 }
