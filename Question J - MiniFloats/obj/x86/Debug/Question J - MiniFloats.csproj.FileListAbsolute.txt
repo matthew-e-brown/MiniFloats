@@ -1,6 +1,0 @@
-C:\Users\Matthew\OneDrive\Coursework\Year 1 - Winter Semester\COIS-2300H Computer Organization\Assignment 2\Question J - MiniFloats\Question J - MiniFloats\bin\Debug\Question J - MiniFloats.exe
-C:\Users\Matthew\OneDrive\Coursework\Year 1 - Winter Semester\COIS-2300H Computer Organization\Assignment 2\Question J - MiniFloats\Question J - MiniFloats\bin\Debug\Question J - MiniFloats.pdb
-C:\Users\Matthew\OneDrive\Coursework\Year 1 - Winter Semester\COIS-2300H Computer Organization\Assignment 2\Question J - MiniFloats\Question J - MiniFloats\obj\x86\Debug\Question J - MiniFloats.exe
-C:\Users\Matthew\OneDrive\Coursework\Year 1 - Winter Semester\COIS-2300H Computer Organization\Assignment 2\Question J - MiniFloats\Question J - MiniFloats\obj\x86\Debug\Question J - MiniFloats.pdb
-C:\Users\Matthew\OneDrive\Coursework\Year 1 - Winter Semester\COIS-2300H Computer Organization\Assignment 2\Question J - MiniFloats\Question J - MiniFloats\obj\x86\Debug\Question J - MiniFloats.csprojAssemblyReference.cache
-C:\Users\Matthew\OneDrive\Coursework\Year 1 - Winter Semester\COIS-2300H Computer Organization\Assignment 2\Question J - MiniFloats\Question J - MiniFloats\obj\x86\Debug\Question J - MiniFloats.csproj.CoreCompileInputs.cache

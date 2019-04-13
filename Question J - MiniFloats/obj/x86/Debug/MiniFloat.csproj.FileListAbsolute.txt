@@ -1,4 +1,0 @@
-C:\Users\Matthew\AppData\Local\Temporary Projects\MiniFloat\bin\Debug\MiniFloat.exe
-C:\Users\Matthew\AppData\Local\Temporary Projects\MiniFloat\bin\Debug\MiniFloat.pdb
-C:\Users\Matthew\AppData\Local\Temporary Projects\MiniFloat\obj\x86\Debug\MiniFloat.exe
-C:\Users\Matthew\AppData\Local\Temporary Projects\MiniFloat\obj\x86\Debug\MiniFloat.pdb
