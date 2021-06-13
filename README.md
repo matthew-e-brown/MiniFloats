@@ -1,7 +1,13 @@
 # MiniFloats
-A repository to work with a custom floating point format of binary numbers. This project is an over-kill version of a single question on the second assignment of the Trent University course, COIS-2300H.
+
+A repository to work with a custom floating point format of binary numbers.
+
+This **for-fun** project is an over-kill version of a single question on the second assignment of the Trent University course, *COIS-2300H*.
+
+---
 
 A minifloat is an adaption of the `IEEE 754` standard for storing floating point numbers in binary. In that standard, a floating point number is stored as follows:
+
 1. The first of 32 bits is a sign-bit: 0 for positive, 1 for negative
 2. The next 8 bits store the exponent, biased with -127.
 3. The final 23 bits stores the mantissa.
